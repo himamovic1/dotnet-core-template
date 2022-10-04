@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  apptemplate:
+    image: ${DOCKER_REGISTRY-}apptemplate
+    build:
+      context: .
+      dockerfile: src/AppTemplate/Dockerfile
