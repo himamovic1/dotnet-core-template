@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AppTemplate.AuthApi.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AppTemplate.AuthApi.Extensions.Startup;
 
@@ -12,7 +13,9 @@ public static class ServiceCollectionExtensions
     /// </summary>
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
-        // services.AddScoped<IService, ServiceImplementation>();
+        services.AddScoped<IUsersService, UsersService>();
+        services.AddScoped<ITokenService, TokenService>();
+
         // services.AddSingleton<ISingletonService, SingletonServiceImplementation>();
 
         return services;
