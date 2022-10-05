@@ -19,6 +19,10 @@ builder.Services
 
 builder.Services.AddSwaggerConfig();
 builder.Services.AddHealthChecks();
+
+builder.Services.AddDbContext<AuthApiDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AuthApiDbContext")));
+
 builder.Services.AddServices();
 builder.Services.AddIdentityServerConfig(builder.Configuration);
 
@@ -26,9 +30,6 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("CORS", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 });
-
-builder.Services.AddDbContext<AuthApiDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("AuthApiDbContext")));
 
 var app = builder.Build();
 

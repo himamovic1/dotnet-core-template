@@ -5,7 +5,7 @@ namespace AppTemplate.AuthApi.Database.Contexts;
 
 public class AuthApiDbContext : DbContext
 {
-    public AuthApiDbContext(DbContextOptions options)
+    public AuthApiDbContext(DbContextOptions<AuthApiDbContext> options)
         : base(options) { }
 
     public DbSet<AppUser> AppUsers { get; set; }

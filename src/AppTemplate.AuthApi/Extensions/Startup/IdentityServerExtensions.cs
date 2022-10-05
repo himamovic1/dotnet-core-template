@@ -7,7 +7,6 @@ using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -73,7 +72,7 @@ public static class IdentityServerExtensions
     {
         using var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
 
-        await serviceScope.ServiceProvider.GetRequiredService<IdentityDbContext>().Database.MigrateAsync();
+        await serviceScope.ServiceProvider.GetRequiredService<AuthApiDbContext>().Database.MigrateAsync();
         await serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.MigrateAsync();
 
         var configurationContext = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
