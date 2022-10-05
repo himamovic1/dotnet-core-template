@@ -1,5 +1,4 @@
 ﻿using IdentityModel.Client;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Net.Http;
@@ -10,25 +9,24 @@ namespace AppTemplate.AuthApi.Services;
 public class TokenService : ITokenService
 {
     private readonly ILogger<TokenService> _logger;
-    private readonly IConfiguration _config;
     private readonly IHttpClientFactory _clientFactory;
+    private readonly IDiscoveryCache _discoveryCache;
 
     public TokenService(
         ILogger<TokenService> logger,
-        IConfiguration config,
-        IHttpClientFactory httpClientFactory)
+        IHttpClientFactory httpClientFactory,
+        IDiscoveryCache discoveryCache)
     {
         _logger = logger;
-        _config = config;
         _clientFactory = httpClientFactory;
+        _discoveryCache = discoveryCache;
     }
 
 
     public async Task<TokenResponse> CreateToken(Models.TokenRequest request)
     {
         var client = _clientFactory.CreateClient();
-        var cache = new DiscoveryCache(_config["AuthApiUrl"]);
-        var disco = await cache.GetAsync();
+        var disco = await _discoveryCache.GetAsync();
 
         if (disco.IsError)
             throw new Exception(disco.Error);
@@ -58,8 +56,7 @@ public class TokenService : ITokenService
     public async Task<TokenResponse> RefreshToken(Models.TokenRequest request)
     {
         var client = _clientFactory.CreateClient();
-        var cache = new DiscoveryCache(_config["AuthApiUrl"]);
-        var disco = await cache.GetAsync();
+        var disco = await _discoveryCache.GetAsync();
 
         if (disco.IsError)
             throw new Exception(disco.Error);
@@ -76,8 +73,7 @@ public class TokenService : ITokenService
     public async Task<TokenRevocationResponse> RevokeToken(Models.TokenRequest request)
     {
         var client = _clientFactory.CreateClient();
-        var cache = new DiscoveryCache(_config["AuthApiUrl"]);
-        var disco = await cache.GetAsync();
+        var disco = await _discoveryCache.GetAsync();
 
         if (disco.IsError)
             throw new Exception(disco.Error);
