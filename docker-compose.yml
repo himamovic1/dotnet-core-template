@@ -1,6 +1,12 @@
 version: '3.4'
 
 services:
+  apptemplate-authapi:
+    image: ${DOCKER_REGISTRY-}apptemplateauthapi
+    build:
+      context: .
+      dockerfile: src/AppTemplate.AuthApi/Dockerfile
+
   apptemplate:
     image: ${DOCKER_REGISTRY-}apptemplate
     build:
